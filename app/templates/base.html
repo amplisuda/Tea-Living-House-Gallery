@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Teahouse Art Gallery{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Галерея Дома Живого Чая</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('main.index') }}">Главная</a></li>
+                    <li><a href="{{ url_for('main.gallery') }}">Галерея</a></li>
+                    <li><a href="{{ url_for('main.about') }}">О проекте</a></li>
+                    <li><a href="{{ url_for('main.contact') }}">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+<nav>
+    <ul class="category-list">
+        <ul class="category-list">
+    {% for category in category_tree %}
+        <li>
+            <a href="{{ url_for('categories.category', category_id=category.id) }}">{{ category.name }}</a>
+            {% if category.children %}
+                <ul>
+                    {% for child in category.children %}
+                        <li><a href="{{ url_for('categories.category', category_id=child.id) }}">{{ child.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+    </ul>
+</nav>
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <footer>
+        <div class="container">
+            <p>&copy; Дом Живого Чая.</p>
+        </div>
+    </footer>
+</body>
+</html>
