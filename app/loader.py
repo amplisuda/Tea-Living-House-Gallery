@@ -68,6 +68,17 @@ def map_products():
             print(f"Error in map_products: {e}")
             db.session.rollback()
 
+def update_categories():
+    app = create_app()
+    with app.app_context():
+        try:
+            db.session.execute(text("SELECT assign_product_categories();"))
+            db.session.commit()
+        except Exception as e:
+            print(f"Error in update_categories: {e}")
+            db.session.rollback()
+
 if __name__ == '__main__':
     load_vk_photos()
     map_products()
+    update_categories()
