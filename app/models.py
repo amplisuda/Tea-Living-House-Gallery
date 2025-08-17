@@ -27,8 +27,15 @@ class Product(db.Model):
     image_url = db.Column(db.Text, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
     category = db.relationship('Category', backref='products')
+    # hash = db.Column(db.Integer, unique=True)
+    # hash = db.Column(db.Integer, db.ForeignKey('product_dict.hash'), nullable=True)
 
-
+class VkIdMapping(db.Model):
+    __tablename__ = 'product_dict'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(999), unique=False, nullable=False)
+    product_id = db.Column(db.Integer, nullable=False)
+    hash = db.Column(db.Integer, unique=True)
 
 
 
