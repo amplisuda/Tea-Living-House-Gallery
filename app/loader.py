@@ -5,6 +5,7 @@ from app.models import db, Image
 from app.config import Config
 from sqlalchemy.sql import text
 
+
 def load_vk_photos():
     app = create_app()
 
@@ -62,7 +63,7 @@ def map_products():
     app = create_app()
     with app.app_context():
         try:
-            db.session.execute(text("SELECT products_mapping();"))
+            db.session.execute(text("SELECT products_mapping();"))  # Функция для обработки товаров
             db.session.commit()
         except Exception as e:
             print(f"Error in map_products: {e}")
@@ -72,7 +73,7 @@ def update_categories():
     app = create_app()
     with app.app_context():
         try:
-            db.session.execute(text("SELECT assign_product_categories();"))
+            db.session.execute(text("SELECT assign_product_categories();"))  # Функция категоризации товаров
             db.session.commit()
         except Exception as e:
             print(f"Error in update_categories: {e}")

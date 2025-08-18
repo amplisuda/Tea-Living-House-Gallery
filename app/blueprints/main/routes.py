@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request
-from ...models import Image, Product, db
+from ...models import Product
 from random import choice
 import json
 
@@ -8,8 +8,6 @@ main_bp = Blueprint('main', __name__, template_folder='templates')
 
 @main_bp.route('/')
 def index():
-    products = Product.query.all()
-    # random_product = random.choice(products) if products else None
     random_product = choice(Product.query.all()) if Product.query.count() > 0 else None
     random_product.image_url = json.loads(random_product.image_url)
     return render_template('main/index.html', random_product=random_product)
