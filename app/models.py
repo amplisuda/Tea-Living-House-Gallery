@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# Таблица для хранения сырых данных
 class Image(db.Model):
     __tablename__ = 'images'
     id = db.Column(db.Integer, primary_key=True)
@@ -11,6 +12,7 @@ class Image(db.Model):
     category = db.Column(db.String(100), nullable=True)
     upload_date = db.Column(db.DateTime, nullable=True)
 
+# Таблица для хранения категорий
 class Category(db.Model):
     __tablename__ = 'categories'
     id = db.Column(db.Integer, primary_key=True)
@@ -18,6 +20,7 @@ class Category(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
     parent = db.relationship('Category', remote_side=[id], backref='children')
 
+# Таблица для хранения товаров
 class Product(db.Model):
     __tablename__ = 'products'
     id = db.Column(db.Integer, primary_key=True)
@@ -30,6 +33,7 @@ class Product(db.Model):
     # hash = db.Column(db.Integer, unique=True)
     # hash = db.Column(db.Integer, db.ForeignKey('product_dict.hash'), nullable=True)
 
+# Словарь для хранения постоянных идентификаторов товаров
 class VkIdMapping(db.Model):
     __tablename__ = 'product_dict'
     id = db.Column(db.Integer, primary_key=True)
