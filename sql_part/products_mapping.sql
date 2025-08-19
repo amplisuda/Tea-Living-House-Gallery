@@ -14,7 +14,7 @@ BEGIN
     )
     SELECT
         name,
-        JSONB_AGG(url) AS image_urls,
+        JSONB_AGG(distinct url) AS image_urls,
         i.title
     FROM images i
     LEFT JOIN names n ON i.title = n.title

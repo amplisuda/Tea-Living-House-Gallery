@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if product %}
+        <div class="product-grid">
+                <!-- Изображения товара -->
+                <div class="product-images">
+                    {% for image_url in product.image_url %}
+                        <div class="product-image">
+                            <img src="{{ image_url }}" alt="{{ product.name }}">
+                        </div>
+                    {% endfor %}
+                </div>
+            <div class="product-card">
+                <!-- Информация о товаре -->
+                <div class="product-info">
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-description">{{ product.description | safe }}</p>
+
+                </div>
+                <a href="#" class="buy-button">Написать продавцу</a>
+            </div>
+        </div>
+    {% else %}
+        <p>Нет доступных продуктов.</p>
+    {% endif %}
+
+    <a href="{{ url_for('main.gallery') }}" class="back-to-gallery">Перейти в галерею</a>
+
+
+{% endblock %}
