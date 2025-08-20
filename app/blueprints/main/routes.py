@@ -24,14 +24,15 @@ def about():
 def contact():
     return render_template('main/contact.html')
 
-@main_bp.route('/gallery')
-def gallery():
-    products = Product.query.all()
-    return render_template('main/gallery.html', products=products)
-
 @main_bp.route('/search')
 def search():
     query = request.args.get('q', '')
     product = Product.query.filter(Product.description.contains(query)).all()
     return render_template('main/search_results.html', product=product)
 
+@main_bp.route('/gallery')
+def gallery():
+    all_products = Product.query.order_by(Product.id.desc()).all()
+    for product in all_products:
+        product.image_url = json.loads(product.image_url)
+    return render_template('main/gallery.html', products=all_products)

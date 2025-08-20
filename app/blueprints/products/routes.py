@@ -15,9 +15,3 @@ def product(product_id):
     product.image_url = json.loads(product.image_url)
     return render_template('main/product_cart.html', product=product)
 
-@products_bp.route('/gallery')
-def gallery():
-    all_products = Product.query.order_by(Product.id.desc()).all()
-    for product in all_products:
-        product.image_url = json.loads(product.image_url)
-    return render_template('main/gallery.html', products=all_products)
