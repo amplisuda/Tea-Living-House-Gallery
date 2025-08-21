@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 from ...models import Product
 import json
 
-products_bp = Blueprint('products', __name__, template_folder='templates')
+products_bp = Blueprint('product', __name__, template_folder='templates')
 
 @products_bp.route('/contact_group')
 def contact_group():

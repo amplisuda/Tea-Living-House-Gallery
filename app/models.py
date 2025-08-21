@@ -33,13 +33,5 @@ class Product(db.Model):
     # hash = db.Column(db.Integer, unique=True)
     # hash = db.Column(db.Integer, db.ForeignKey('product_dict.hash'), nullable=True)
 
-# Словарь для хранения постоянных идентификаторов товаров
-class VkIdMapping(db.Model):
-    __tablename__ = 'product_dict'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(999), unique=False, nullable=False)
-    product_id = db.Column(db.Integer, nullable=False)
-    hash = db.Column(db.Integer, unique=True)
-
 
 
