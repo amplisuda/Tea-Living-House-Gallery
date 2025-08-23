@@ -6,9 +6,9 @@ project/
 │   ├── config.py
 │   ├── models.py
 │   ├── services/
-│   │   ├── __init__.py
-│   │   ├── vk_service.py
-│   │   └── categorizer.py
+│   │   ├── 
+│   │   ├── 
+│   │   └── 
 │   ├── blueprints/
 │   │   ├── __init__.py
 │   │   ├── main/
@@ -42,6 +42,7 @@ project/
 ├── tests/
 ├── requirements.txt
 ├── run.py
+├── loader.py
 ├── .gitignore
 └── .env
 ```
