@@ -9,9 +9,13 @@ def contact_group():
     return render_template('products/contact_group.html')
 
 
-@products_bp.route('/<int:product_id>')
-def product(product_id):
-    product = Product.query.get_or_404(product_id)
-    product.image_url = json.loads(product.image_url)
+@products_bp.route('/<string:hash>')
+def product(hash):
+    product = Product.query.filter_by(hash=hash).first()
+    if not product:
+        abort(404, description="Product not found")
+    try:
+        product.image_url = json.loads(product.image_url)
+    except json.JSONDecodeError:
+        abort(500, description="Invalid image_url format")
     return render_template('main/product_cart.html', product=product)
-

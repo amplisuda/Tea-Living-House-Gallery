@@ -30,7 +30,7 @@ class Product(db.Model):
     image_url = db.Column(db.Text, nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
     category = db.relationship('Category', backref='products')
-    # hash = db.Column(db.Integer, unique=True)
+    hash = db.Column(db.Text, unique=True)
     # hash = db.Column(db.Integer, db.ForeignKey('product_dict.hash'), nullable=True)
 
 
