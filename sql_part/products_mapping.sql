@@ -1,8 +1,10 @@
-CREATE OR REPLACE FUNCTION products_mapping()
-RETURNS VOID AS $$
+CREATE OR REPLACE FUNCTION public.products_mapping()
+ RETURNS void
+ LANGUAGE plpgsql
+AS $function$
 BEGIN
 	delete from products;
-    INSERT INTO products (name, image_url, description)
+    INSERT INTO products (name, image_url, description, hash)
     WITH names AS (
         SELECT
             COALESCE(
@@ -15,10 +17,12 @@ BEGIN
     SELECT
         name,
         JSONB_AGG(distinct url) AS image_urls,
-        i.title
+        i.title,
+		md5(i.title) as hash
     FROM images i
     LEFT JOIN names n ON i.title = n.title
     GROUP BY name, i.title
     ORDER BY name;
 END;
-$$ LANGUAGE plpgsql;
+$function$
+;
