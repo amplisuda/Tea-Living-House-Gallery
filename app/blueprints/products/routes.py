@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect, url_for
 from ...models import Product
 import json
 
@@ -12,3 +12,7 @@ def product(hash):
     except json.JSONDecodeError:
         print(500, description="Invalid image_url format")
     return render_template('main/product_cart.html', product=product)
+
+@products_bp.route('/<path:path>')
+def redirect_index(path):
+    return redirect(url_for('main.index'))
