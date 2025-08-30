@@ -9,7 +9,6 @@ def run_loader():
 app = create_app()
 
 scheduler = BackgroundScheduler()
-# Запуск каждый день в 01:00
 scheduler.add_job(run_loader, 'cron', hour=1, minute=0)
 scheduler.start()
 
