@@ -11,6 +11,7 @@ def create_app():
 
     db.init_app(app)
 
+    # /app/blueprints/
     app.register_blueprint(main_bp)
     app.register_blueprint(products_bp, url_prefix='/product')
     app.register_blueprint(categories_bp, url_prefix='/categories')
