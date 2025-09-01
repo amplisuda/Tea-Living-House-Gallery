@@ -7,7 +7,7 @@ from app.blueprints.categories.routes import categories_bp
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(Config) #/app/config.py
 
     db.init_app(app)
 
