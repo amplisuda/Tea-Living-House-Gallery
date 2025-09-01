@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Галерея — Teahouse Art Gallery{% endblock %}
+
+{% block content %}
+<div class="gallery-page">
+  <h1 class="gallery-title">Галерея</h1>
+
+  {% for product in products %}
+  <section class="gallery-group" id="p-{{ product.id }}">
+    <header class="gallery-group__head">
+      <p class="gallery-group__desc">{{ product.name }}</p>
+      {% if product.description %}
+      <p class="gallery-group__desc">{{ product.description }}</p>
+      {% endif %}
+    </header>
+
+    {% if product.image_url and product.image_url|length %}
+    <div class="gallery-grid">
+      {% for img in product.image_url %}
+      <a href="#lightbox-{{ product.id }}-{{ loop.index }}"
+         class="gallery-card"
+         aria-label="{{ product.name }} — изображение {{ loop.index }}">
+        <img src="{{ img }}" alt="{{ product.name }} — {{ loop.index }}">
+      </a>
+
+      <!-- Лайтбокс :target (без JS) -->
+      <div class="lightbox" id="lightbox-{{ product.id }}-{{ loop.index }}">
+        <a class="lightbox__bg" href="#p-{{ product.id }}" aria-label="Закрыть"></a>
+        <figure class="lightbox__content">
+          <img src="{{ img }}" alt="{{ product.name }} — {{ loop.index }}">
+          <figcaption>
+            {{ product.name }} · {{ loop.index }} / {{ product.image_url|length }}
+          </figcaption>
+          <a class="lightbox__close" href="#p-{{ product.id }}" aria-label="Закрыть">×</a>
+          {% if not loop.first %}
+            <a class="lightbox__nav lightbox__prev"
+               href="#lightbox-{{ product.id }}-{{ loop.index - 1 }}"
+               aria-label="Предыдущее">‹</a>
+          {% endif %}
+          {% if not loop.last %}
+            <a class="lightbox__nav lightbox__next"
+               href="#lightbox-{{ product.id }}-{{ loop.index + 1 }}"
+               aria-label="Следующее">›</a>
+          {% endif %}
+        </figure>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="gallery-empty">Нет изображений.</p>
+    {% endif %}
+  </section>
+  {% else %}
+    <p class="gallery-empty">В галерее пока нет товаров.</p>
+  {% endfor %}
+</div>
+{% endblock %}
