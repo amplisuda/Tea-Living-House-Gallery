@@ -23,6 +23,7 @@ BEGIN
     LEFT JOIN names n ON i.title = n.title
     GROUP BY name, i.title
     ORDER BY name;
+	delete from products where hash ='d41d8cd98f00b204e9800998ecf8427e';
 END;
 $function$
 ;
