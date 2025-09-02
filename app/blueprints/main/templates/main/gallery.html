@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav>
+  <ul class="category-list"></ul>
+</nav>
+
+<main>
+  <div class="container">
+    <section class="oz-gallery" aria-labelledby="oz-title">
+      <h1 id="oz-title" class="oz-vh">Галерея</h1>
+
+      <!-- ===== СЕТКА МИНИ-КАРТОЧЕК ===== -->
+      <div class="oz-grid" aria-label="Список товаров">
+        {% for p in products_page %}
+          {% set cover = (p.image_url[0] if p.image_url and p.image_url|length>0 else url_for('static', filename='img/placeholder.png')) %}
+          {% set title_line = (p.name|string).replace('\n',' ') %}
+          <article class="oz-card" tabindex="0" role="button"
+                   aria-label="Открыть карточку {{ title_line }}"
+                   data-oz-open="oz-modal-{{ p.id }}">
+            <figure class="oz-card-media">
+              <img src="{{ cover }}" loading="lazy" decoding="async" alt="{{ title_line }}" />
+              <figcaption class="oz-card-cap">
+                <span class="oz-card-title" title="{{ title_line }}">{{ title_line }}</span>
+              </figcaption>
+            </figure>
+          </article>
+
+          <!-- ===== МОДАЛКА ===== -->
+          <dialog class="oz-modal" id="oz-modal-{{ p.id }}" aria-labelledby="oz-modal-title-{{ p.id }}">
+            <form method="dialog" class="oz-modal-frame">
+              <button class="oz-x" aria-label="Закрыть">✕</button>
+
+              <div class="oz-modal-wrap">
+                <div class="oz-modal-media">
+                  <img class="oz-hero" src="{{ cover }}" alt="{{ title_line }}" data-oz-hero />
+                  {% if p.image_url and p.image_url|length>1 %}
+                    <div class="oz-thumbs" role="list">
+                      {% for img in p.image_url %}
+                        <button type="button" class="oz-thumb" role="listitem" data-oz-thumb data-oz-src="{{ img }}">
+                          <img src="{{ img }}" loading="lazy" alt="Превью {{ loop.index }} — {{ title_line }}">
+                        </button>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+
+                <div class="oz-modal-info">
+                  {% if p.description is defined and (p.description|string|trim) %}
+                    <div class="oz-desc">{{ p.description }}</div>
+                  {% endif %}
+
+                  <div class="oz-actions">
+  <a
+    class="oz-btn"
+    target="_blank" rel="noopener"
+    href="https://t.me/amplisuda?text={{ (
+      'Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=p.hash, _external=True)
+    ) | urlencode }}"
+  >
+    Написать в Telegram
+  </a>
+</div>
+                </div>
+              </div>
+            </form>
+          </dialog>
+        {% endfor %}
+      </div>
+
+      <!-- ===== ПАГИНАЦИЯ ===== -->
+      {% if total_pages and total_pages>1 %}
+      <nav class="oz-pager" aria-label="Навигация по страницам">
+        <a class="oz-page {% if page<=1 %}oz-disabled{% endif %}"
+           href="{{ url_for('main.gallery', page=page-1) if page>1 else '#' }}"
+           aria-disabled="{{ 'true' if page<=1 else 'false' }}" rel="prev">Назад</a>
+
+        <ul class="oz-page-list">
+          {% set start=[1,page-2]|max %}
+          {% set end=[total_pages,page+2]|min %}
+          {% if start>1 %}
+            <li><a class="oz-page" href="{{ url_for('main.gallery', page=1) }}">1</a></li>
+            {% if start>2 %}<li class="oz-ellipsis">…</li>{% endif %}
+          {% endif %}
+          {% for n in range(start,end+1) %}
+            {% if n==page %}<li><span class="oz-page oz-current" aria-current="page">{{ n }}</span></li>
+            {% else %}<li><a class="oz-page" href="{{ url_for('main.gallery', page=n) }}">{{ n }}</a></li>{% endif %}
+          {% endfor %}
+          {% if end<total_pages %}
+            {% if end<total_pages-1 %}<li class="oz-ellipsis">…</li>{% endif %}
+            <li><a class="oz-page" href="{{ url_for('main.gallery', page=total_pages) }}">{{ total_pages }}</a></li>
+          {% endif %}
+        </ul>
+
+        <a class="oz-page {% if page>=total_pages %}oz-disabled{% endif %}"
+           href="{{ url_for('main.gallery', page=page+1) if page<total_pages else '#' }}"
+           aria-disabled="{{ 'true' if page>=total_pages else 'false' }}" rel="next">Вперёд</a>
+      </nav>
+      {% endif %}
+    </section>
+
+    <!-- ===== JS (изолирован) ===== -->
+    <script>
+    (() => {
+      const $ = (s, r=document) => r.querySelector(s);
+      const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+      $$('.oz-card').forEach(card => {
+        const id = card.getAttribute('data-oz-open');
+        const dlg = id ? document.getElementById(id) : null;
+        if (!dlg) return;
+
+        const open = () => (dlg.showModal ? dlg.showModal() : dlg.setAttribute('open','open'));
+        const close = () => (dlg.close ? dlg.close() : dlg.removeAttribute('open'));
+
+        card.addEventListener('click', open);
+        card.addEventListener('keydown', e => {
+          if (e.key==='Enter'||e.key===' ') { e.preventDefault(); open(); }
+        });
+
+        $('.oz-x', dlg)?.addEventListener('click', close);
+        dlg.addEventListener('click', e => {
+          const frame = $('.oz-modal-frame', dlg);
+          if (frame && !frame.contains(e.target)) close();
+        });
+
+        $$('.oz-thumb', dlg).forEach(btn => {
+          btn.addEventListener('click', () => {
+            const src = btn.getAttribute('data-oz-src');
+            const hero = $('[data-oz-hero]', dlg);
+            if (src && hero) hero.src = src;
+          });
+        });
+      });
+    })();
+    </script>
+
+    <!-- ===== СТИЛИ (изолированы) ===== -->
+    <style>
+      .oz-vh{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
+      .oz-gallery{display:grid;gap:1.25rem;padding:2rem 0}
+      .oz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+      .oz-card{cursor:pointer;outline:none;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.08)}
+      .oz-card:focus{box-shadow:0 0 0 2px #000 inset}
+      .oz-card-media{position:relative;aspect-ratio:4/5;background:#f6f6f6}
+      .oz-card-media>img{width:100%;height:100%;object-fit:cover;display:block}
+      .oz-card-cap{position:absolute;left:0;right:0;bottom:0;background:rgba(255,255,255,.9);padding:.5rem .6rem;transform:translateY(100%);transition:transform .18s ease}
+      .oz-card:hover .oz-card-cap,.oz-card:focus .oz-card-cap{transform:translateY(0)}
+      .oz-card-title{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.92rem;font-weight:700;line-height:1.25}
+      dialog.oz-modal{border:none;padding:0;border-radius:18px;max-width:min(1000px,96vw);width:96vw}
+      .oz-modal::backdrop{background:rgba(0,0,0,.35)}
+      .oz-modal-frame{margin:0;background:#fff;border-radius:18px;overflow:hidden;position:relative}
+      .oz-x{position:absolute;top:.75rem;right:.75rem;border:none;background:#000;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer}
+      .oz-modal-wrap{display:grid;gap:1rem;grid-template-columns:1fr 1fr;padding:1rem;max-height:80vh;overflow:auto}
+      @media (max-width:860px){.oz-modal-wrap{grid-template-columns:1fr}}
+      .oz-modal-media{display:grid;gap:.75rem}
+      .oz-hero{width:100%;aspect-ratio:4/5;object-fit:cover;background:#f6f6f6}
+      .oz-thumbs{display:grid;grid-auto-flow:column;gap:.5rem;overflow-x:auto}
+      .oz-thumb{border:1px solid #eee;padding:0;background:transparent;border-radius:10px;cursor:pointer}
+      .oz-thumb img{display:block;width:72px;height:72px;object-fit:cover}
+      .oz-modal-info{display:grid;gap:.75rem;align-content:start}
+      .oz-modal-title{margin:0;font-size:1.25rem;font-weight:800;line-height:1.2}
+      .oz-price{font-weight:800}
+      .oz-desc{white-space:pre-wrap;line-height:1.35}
+      .oz-tags{display:flex;gap:.5rem;flex-wrap:wrap;padding:0;margin:.25rem 0 0;list-style:none}
+      .oz-tag{font-size:.8rem;padding:.25rem .5rem;border:1px solid #eee;border-radius:999px}
+      .oz-actions{margin-top:.25rem}
+      .oz-btn{padding:.6rem 1rem;border-radius:12px;border:1px solid #000;background:#000;color:#fff;cursor:pointer}
+      .oz-ghost{background:#fff;color:#000}
+      .oz-pager{display:grid;grid-auto-flow:column;gap:1rem;justify-content:center;align-items:center;padding:1rem 0 0}
+      .oz-page-list{display:flex;gap:.25rem;padding:0;margin:0;list-style:none}
+      .oz-page,.oz-current{display:inline-flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 .5rem;border-radius:10px;border:1px solid #000;text-decoration:none;color:inherit}
+      .oz-current{background:#000;color:#fff;border-color:#000}
+      .oz-ellipsis{padding:0 .5rem;user-select:none}
+      .oz-disabled{opacity:.4;pointer-events:none}
+    </style>
+  </div>
+</main>
+
+<footer><div class="container"></div></footer>
+</body>
+</html>
+{% endblock %}
