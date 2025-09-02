@@ -3,7 +3,7 @@ CREATE OR REPLACE FUNCTION public.products_mapping()
  LANGUAGE plpgsql
 AS $function$
 BEGIN
-	delete from products;
+	truncate table products;
     INSERT INTO products (name, image_url, description, hash)
     WITH names AS (
         SELECT
