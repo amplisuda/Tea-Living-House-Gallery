@@ -36,7 +36,7 @@ def search():
     return render_template('main/search_results.html', product=product)
 
 
-PER_PAGE = 30
+PER_PAGE = 28
 
 @main_bp.route('/gallery')
 def gallery():
