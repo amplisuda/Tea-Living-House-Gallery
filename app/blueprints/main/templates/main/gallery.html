@@ -10,7 +10,6 @@
   <div class="container">
     <section class="oz-gallery" aria-labelledby="oz-title">
       <h1 id="oz-title" class="oz-vh">Галерея</h1>
-
       <div class="oz-grid" aria-label="Список товаров">
         {% for p in products_page %}
           {% set cover = (p.image_url[0] if p.image_url and p.image_url|length>0 else url_for('static', filename='img/placeholder.png')) %}
@@ -30,7 +29,6 @@
           <dialog class="oz-modal" id="oz-modal-{{ p.id }}" aria-labelledby="oz-modal-title-{{ p.id }}">
             <form method="dialog" class="oz-modal-frame">
               <button class="oz-x" aria-label="Закрыть">✕</button>
-
               <div class="oz-modal-wrap">
                 <div class="oz-modal-media">
                   <img class="oz-hero" src="{{ cover }}" alt="{{ title_line }}" data-oz-hero />
@@ -44,23 +42,20 @@
                     </div>
                   {% endif %}
                 </div>
-
                 <div class="oz-modal-info">
                   {% if p.description is defined and (p.description|string|trim) %}
                     <div class="oz-desc">{{ p.description }}</div>
                   {% endif %}
-
                   <div class="oz-actions">
-  <a
-    class="oz-btn"
-    target="_blank" rel="noopener"
-    href="https://t.me/amplisuda?text={{ (
-      'Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=p.hash, _external=True)
-    ) | urlencode }}"
-  >
-    Написать в Telegram
-  </a>
-</div>
+                      <a
+                        class="oz-btn"
+                        target="_blank" rel="noopener"
+                        href="https://t.me/amplisuda?text={{ (
+                          'Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=p.hash, _external=True)
+                        ) | urlencode }}"
+                      > Написать в Telegram
+                      </a>
+                    </div>
                 </div>
               </div>
             </form>
@@ -98,7 +93,6 @@
       {% endif %}
     </section>
 
-    <!-- ===== JS (изолирован) ===== -->
     <script>
     (() => {
       const $ = (s, r=document) => r.querySelector(s);
@@ -133,8 +127,6 @@
       });
     })();
     </script>
-
-    <!-- ===== СТИЛИ (изолированы) ===== -->
     <style>
 /* =======================
    THEME / TOKENS (light)
