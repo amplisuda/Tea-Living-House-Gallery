@@ -126,9 +126,7 @@
     })();
     </script>
     <style>
-/* =======================
-   THEME / TOKENS (light)
-   ======================= */
+
 :root{
   --oz-bg:#f7f7fb;
   --oz-bg-soft:#ffffff;
@@ -151,9 +149,7 @@
   --oz-shadow-focus:0 0 0 3px rgba(91,102,255,.25);
 }
 
-/* =======================
-   BASE
-   ======================= */
+
 html,body{height:100%}
 body{
   margin:0;
@@ -166,15 +162,11 @@ body{
 .container{max-width:1200px;margin:0 auto;padding:2rem 1.25rem}
 .oz-vh{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
 
-/* =======================
-   GALLERY GRID
-   ======================= */
+
 .oz-gallery{display:grid;gap:var(--oz-gap-lg);padding:1rem 0}
 .oz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:clamp(.8rem,2vw,1.1rem)}
 
-/* =======================
-   CARD
-   ======================= */
+
 .oz-card{
   cursor:pointer;
   outline:none;
@@ -223,9 +215,7 @@ body{
   color:var(--oz-text);
 }
 
-/* =======================
-   MODAL
-   ======================= */
+
 dialog.oz-modal{
   border:none;padding:0;margin:auto;
   max-width:min(1000px,96vw);
@@ -278,9 +268,7 @@ dialog.oz-modal{
 .oz-desc{white-space:pre-wrap;line-height:1.45;color:var(--oz-text)}
 .oz-modal-title{margin:0;font-size:1.25rem;font-weight:900;line-height:1.2}
 
-/* =======================
-   BUTTONS / ACTIONS
-   ======================= */
+
 .oz-actions{margin-top:.25rem}
 .oz-btn{
   padding:.7rem 1rem;
@@ -298,9 +286,7 @@ dialog.oz-modal{
 .oz-btn:active{transform:translateY(0)}
 .oz-ghost{background:#fff;color:var(--oz-text);border-color:var(--oz-border);box-shadow:none}
 
-/* =======================
-   PAGER
-   ======================= */
+
 .oz-pager{display:grid;grid-auto-flow:column;gap:1rem;justify-content:center;align-items:center;padding:.75rem 0 0}
 .oz-page-list{display:flex;gap:.35rem;padding:0;margin:0;list-style:none}
 .oz-page,.oz-current{
@@ -314,9 +300,6 @@ dialog.oz-modal{
 .oz-ellipsis{padding:0 .5rem;user-select:none;color:var(--oz-muted)}
 .oz-disabled{opacity:.45;pointer-events:none}
 
-/* =======================
-   ACCESSIBILITY / MISC
-   ======================= */
 *:focus-visible{outline:none;box-shadow:var(--oz-shadow-focus)}
 img{max-width:100%;height:auto}
 a{color:inherit}
