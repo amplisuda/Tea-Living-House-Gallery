@@ -1,32 +1,149 @@
 {% extends 'base.html' %}
 {% block content %}
 {% if product %}
-<div class="suprematist-wrap">
-  <!-- subtle geometric accents -->
-  <div class="suprematist-accent accent-a"></div>
-  <div class="suprematist-accent accent-b"></div>
-  <div class="suprematist-accent accent-c"></div>
-
-  <section class="product-grid">
-    <div class="product-images collage-grid">
+  <div class="oz-product">
+    <div class="oz-images">
       {# Collage-style, grouped grid — images automatically tile into bold blocks #}
       {% for image_url in product.image_url %}
-      <figure class="product-image">
-        <img src="{{ image_url }}" alt="{{ product.name }}">
-      </figure>
+        <div class="oz-image">
+          <img src="{{ image_url }}" alt="{{ product.name }}">
+        </div>
       {% endfor %}
     </div>
-
-    <article class="product-card sup-card">
-      <header class="product-info">
-        <h1 class="product-name">{{ product.name }}</h1>
-        <div class="product-description">{{ product.description | safe }}</div>
-      </header>
-      <a href="#" class="buy-button sup-btn">Написать продавцу</a>
-    </article>
-  </section>
-</div>
+    <div class="oz-info">
+      <h3 class="oz-name">{{ product.name }}</h3>
+      <div class="oz-desc">{{ product.description | safe }}</div>
+      <a href="https://t.me/amplisuda?text={{ ('Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=product.hash, _external=True)) | urlencode }}" class="oz-btn" target="_blank" rel="noopener">Написать продавцу</a>
+    </div>
+  </div>
 {% else %}
-<p>Нет доступных продуктов.</p>
+  <p>Нет доступных продуктов.</p>
 {% endif %}
+
+<!-- ===== СТИЛИ (автономные) ===== -->
+<style>
+  /* Suprematist Minimalism: Geometric purity, limited palette (black, white, red, blue), asymmetry, abstraction, floating forms, minimal elements */
+  .oz-product {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    position: relative;
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: calc(100vh - 200px); /* Fit within one screen */
+  }
+  .oz-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    position: relative;
+  }
+  .oz-image {
+    position: relative;
+  }
+  .oz-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border: 5px solid #000;
+    transform: rotate(5deg);
+  }
+  .oz-image:nth-child(even) img {
+    transform: rotate(-5deg);
+  }
+  .oz-info {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+  .oz-name {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    color: #000;
+    margin: 0;
+  }
+  .oz-desc {
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #000;
+    max-width: 80%;
+  }
+  .oz-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #f00; /* Red accent */
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    transition: transform 0.3s;
+  }
+  .oz-btn:hover {
+    transform: translate(5px, -5px);
+  }
+  .oz-product::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: -1rem;
+    width: 100px;
+    height: 100px;
+    background: #00f; /* Blue geometric element */
+    transform: rotate(15deg);
+    z-index: -1;
+  }
+  .oz-product::after {
+    content: '';
+    position: absolute;
+    bottom: -2rem;
+    right: -2rem;
+    width: 200px;
+    height: 20px;
+    background: #000; /* Black bar */
+    transform: rotate(-30deg);
+    z-index: -1;
+  }
+  p {
+    font-size: 1rem;
+    color: #000;
+    text-align: center;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .oz-product {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      min-height: auto;
+    }
+    .oz-desc {
+      max-width: 100%;
+    }
+    .oz-image img {
+      transform: none;
+    }
+    .oz-product::before,
+    .oz-product::after {
+      display: none;
+    }
+  }
+  @media (max-width: 480px) {
+    .oz-name {
+      font-size: 1.2rem;
+    }
+    .oz-desc {
+      font-size: 0.9rem;
+    }
+    .oz-btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+    p {
+      font-size: 0.9rem;
+    }
+  }
+</style>
 {% endblock %}
