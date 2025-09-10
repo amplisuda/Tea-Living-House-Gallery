@@ -11,7 +11,7 @@
             <img src="{{ random_product.image_url[0]}} " width="500" height="600">
             <h3>{{ random_product.name }}</h3>
             <p>{{ random_product.description | safe }}</p>
-            <a href="#" class="buy-button">купить</a>
+            <a href="{{ url_for('product.product', hash=random_product.hash) }}" class="buy-button">Купить</a>
         </div>
     </section>
     {% else %}
