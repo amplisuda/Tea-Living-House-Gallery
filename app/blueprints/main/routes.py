@@ -13,7 +13,6 @@ def index():
     random_product.image_url = json.loads(random_product.image_url)
     return render_template('main/index.html', random_product=random_product)
 
-
 @main_bp.route('/<path:path>')
 def redirect_index(path):
     return redirect(url_for('main.index'))
