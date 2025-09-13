@@ -14,6 +14,7 @@
         {% for p in products_page %}
           {% set cover = (p.image_url[0] if p.image_url and p.image_url|length>0 else url_for('static', filename='img/placeholder.png')) %}
           {% set title_line = (p.name|string).replace('\n',' ') %}
+            <a href="{{ url_for('product.product', hash=p.hash) }}" class="oz-card-link">
           <article class="oz-card" tabindex="0" role="button"
                    aria-label="Открыть карточку {{ title_line }}"
                    data-oz-open="oz-modal-{{ p.id }}">
@@ -24,40 +25,7 @@
               </figcaption>
             </figure>
           </article>
-          <dialog class="oz-modal" id="oz-modal-{{ p.id }}" aria-labelledby="oz-modal-title-{{ p.id }}">
-            <form method="dialog" class="oz-modal-frame">
-              <button class="oz-x" aria-label="Закрыть">✕</button>
-              <div class="oz-modal-wrap">
-                <div class="oz-modal-media">
-                  <img class="oz-hero" src="{{ cover }}" alt="{{ title_line }}" data-oz-hero />
-                  {% if p.image_url and p.image_url|length>1 %}
-                    <div class="oz-thumbs" role="list">
-                      {% for img in p.image_url %}
-                        <button type="button" class="oz-thumb" role="listitem" data-oz-thumb data-oz-src="{{ img }}">
-                          <img src="{{ img }}" loading="lazy" alt="Превью {{ loop.index }} — {{ title_line }}">
-                        </button>
-                      {% endfor %}
-                    </div>
-                  {% endif %}
-                </div>
-                <div class="oz-modal-info">
-                  {% if p.description is defined and (p.description|string|trim) %}
-                    <div class="oz-desc">{{ p.description }}</div>
-                  {% endif %}
-                  <div class="oz-actions">
-                      <a
-                        class="oz-btn"
-                        target="_blank" rel="noopener"
-                        href="https://t.me/amplisuda?text={{ (
-                          'Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=p.hash, _external=True)
-                        ) | urlencode }}"
-                      > Написать в Telegram
-                      </a>
-                    </div>
-                </div>
-              </div>
-            </form>
-          </dialog>
+                </a>
         {% endfor %}
       </div>
 
