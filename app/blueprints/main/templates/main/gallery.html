@@ -64,11 +64,6 @@
       const $ = (s, r=document) => r.querySelector(s);
       const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 
-      $$('.oz-card').forEach(card => {
-        const id = card.getAttribute('data-oz-open');
-        const dlg = id ? document.getElementById(id) : null;
-        if (!dlg) return;
-
         card.addEventListener('click', open);
         card.addEventListener('keydown', e => {
           if (e.key==='Enter'||e.key===' ') { e.preventDefault(); open(); }
