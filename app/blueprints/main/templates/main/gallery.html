@@ -69,9 +69,6 @@
         const dlg = id ? document.getElementById(id) : null;
         if (!dlg) return;
 
-        const open = () => (dlg.showModal ? dlg.showModal() : dlg.setAttribute('open','open'));
-        const close = () => (dlg.close ? dlg.close() : dlg.removeAttribute('open'));
-
         card.addEventListener('click', open);
         card.addEventListener('keydown', e => {
           if (e.key==='Enter'||e.key===' ') { e.preventDefault(); open(); }
