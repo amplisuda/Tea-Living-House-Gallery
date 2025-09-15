@@ -95,17 +95,7 @@
     transform: rotate(15deg);
     z-index: -1;
   }
-  .oz-product::after {
-    content: '';
-    position: absolute;
-    bottom: -2rem;
-    right: -2rem;
-    width: 200px;
-    height: 20px;
-    background: #000; /* Black bar */
-    transform: rotate(-30deg);
-    z-index: -1;
-  }
+
   p {
     font-size: 1rem;
     color: #000;
@@ -124,10 +114,6 @@
     }
     .oz-image img {
       transform: none;
-    }
-    .oz-product::before,
-    .oz-product::after {
-      display: none;
     }
   }
   @media (max-width: 480px) {
