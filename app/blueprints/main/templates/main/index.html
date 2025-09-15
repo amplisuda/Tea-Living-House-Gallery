@@ -6,9 +6,8 @@
 
     {% if random_product %}
     <section class="featured">
-        <h2>favorite</h2>
         <div class="product">
-            <img src="{{ random_product.image_url[0]}} " width="500" height="600">
+            <img src="{{ random_product.main_url}} " width="500" height="600">
             <h3>{{ random_product.name }}</h3>
             <p>{{ random_product.description | safe }}</p>
             <a href="{{ url_for('product.product', hash=random_product.hash) }}" class="buy-button">Купить</a>
