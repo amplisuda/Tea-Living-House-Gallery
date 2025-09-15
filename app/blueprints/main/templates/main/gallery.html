@@ -12,7 +12,7 @@
       <h1 id="oz-title" class="oz-vh">Галерея</h1>
       <div class="oz-grid" aria-label="Список товаров">
         {% for p in products_page %}
-          {% set cover = (p.image_url[0] if p.image_url and p.image_url|length>0 else url_for('static', filename='img/placeholder.png')) %}
+          {% set cover = (p.main_url if p.image_url and p.image_url|length>0 else url_for('static', filename='img/placeholder.png')) %}
           {% set title_line = (p.name|string).replace('\n',' ') %}
             <a href="{{ url_for('product.product', hash=p.hash) }}" class="oz-card-link">
           <article class="oz-card" tabindex="0" role="button"
