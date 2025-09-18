@@ -420,7 +420,7 @@ body{
   text-rendering:optimizeLegibility;
 }
 
-.container{max-width:1200px;margin:0 auto;padding:2rem 1.25rem}
+.gallery-page .container{max-width:1200px;margin:0 auto;padding:2rem 1.25rem}
 .oz-vh{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
 
 
@@ -573,4 +573,73 @@ a{color:inherit}
 .contacts .container {
   display: block;       /* убираем grid для этих контейнеров */
   text-align: center;   /* и центрируем текст */
+}
+
+/* ===== Fix: About & Contacts responsive layout ===== */
+
+/* выключаем grid-контейнер и центрируем контент */
+#about .container,
+#contacts .container {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  max-width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+/* заголовок в этих секциях без поворота и абсолюта */
+#about h1,
+#contacts h1 {
+  position: static !important;
+  transform: none !important;
+  letter-spacing: .08em;
+  margin: 0 0 1rem 0;
+  font-size: 1.8rem;
+}
+
+/* абзацы не должны сжиматься и упираться в 60% ширины */
+#about p,
+#contacts p,
+#about .product p,
+#contacts .product p {
+  max-width: 65ch;
+  width: 100%;
+  margin: 0.25rem 0;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* сама карточка, если вдруг используется, выравниваем по центру */
+#about .product,
+#contacts .product {
+  align-items: center;
+}
+
+/* мобильные правки */
+@media (max-width: 600px) {
+  #about .container,
+  #contacts .container {
+    padding: 0.75rem;
+    gap: 0.4rem;
+  }
+  #about h1,
+  #contacts h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+  }
+  #about p,
+  #contacts p {
+    font-size: 0.95rem;
+  }
+}
+
+/* на этих страницах не нужен декоративный перевёрнутый h1 */
+#about h1,
+#contacts h1 {
+  top: auto; left: auto;
 }
