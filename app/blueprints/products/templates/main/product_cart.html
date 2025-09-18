@@ -11,7 +11,6 @@
       {% endfor %}
     </div>
     <div class="oz-info">
-      <h3 class="oz-name">{{ product.name }}</h3>
       <div class="oz-desc">{{ product.description | safe }}</div>
       <a href="https://t.me/amplisuda?text={{ ('Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=product.hash, _external=True)) | urlencode }}" class="oz-btn" target="_blank" rel="noopener">Написать продавцу</a>
     </div>
