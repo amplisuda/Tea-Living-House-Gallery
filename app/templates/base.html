@@ -10,11 +10,6 @@
     <header>
         <div class="container">
             <nav>
-                <ul>
-                    <li><a href="{{ url_for('main.index') }}">Главная</a></li>
-                    <li><a href="{{ url_for('main.gallery') }}">Галерея</a></li>
-                    <li><a href="{{ url_for('main.about') }}">О проекте</a></li>
-                    <li><a href="{{ url_for('main.contact') }}">Контакты</a></li>
                 <form action="{{ url_for('main.search') }}" method="get" role="search" class="oz-search">
                   <label for="q" class="oz-vh">Поиск по описанию</label>
                       <div class="oz-search-wrap">
@@ -22,6 +17,12 @@
                         <button class="oz-search-btn" type="submit" aria-label="Найти">Найти</button>
                       </div>
                 </form>
+                <br>
+                <ul>
+                    <li><a href="{{ url_for('main.index') }}">Главная</a></li>
+                    <li><a href="{{ url_for('main.gallery') }}">Галерея</a></li>
+                    <li><a href="{{ url_for('main.about') }}">О проекте</a></li>
+                    <li><a href="{{ url_for('main.contact') }}">Контакты</a></li>
                 </ul>
             </nav>
         </div>
