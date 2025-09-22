@@ -15,6 +15,13 @@
                     <li><a href="{{ url_for('main.gallery') }}">Галерея</a></li>
                     <li><a href="{{ url_for('main.about') }}">О проекте</a></li>
                     <li><a href="{{ url_for('main.contact') }}">Контакты</a></li>
+                <form action="{{ url_for('main.search') }}" method="get" role="search" class="oz-search">
+                  <label for="q" class="oz-vh">Поиск по описанию</label>
+                      <div class="oz-search-wrap">
+                        <input id="q" name="q" type="text" placeholder="Поиск по описанию…" value="{{ request.args.get('q','') }}" />
+                        <button class="oz-search-btn" type="submit" aria-label="Найти">Найти</button>
+                      </div>
+                </form>
                 </ul>
             </nav>
         </div>

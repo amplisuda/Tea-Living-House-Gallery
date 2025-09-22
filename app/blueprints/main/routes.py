@@ -28,13 +28,6 @@ def contact():
     return render_template('main/contact.html')
 
 
-@main_bp.route('/search')
-def search():
-    query = request.args.get('q', '')
-    product = Product.query.filter(Product.description.contains(query)).all()
-    return render_template('main/search_results.html', product=product)
-
-
 PER_PAGE = 28
 
 @main_bp.route('/gallery')
@@ -54,3 +47,11 @@ def gallery():
         total_pages=total_pages
     )
 
+@main_bp.route('/search')
+def search():
+    query = request.args.get('q', '').strip()
+    if not query:
+        products = []
+    else:
+        products = Product.query.filter(Product.description.ilike(f"%{query}%")).all()
+    return render_template('main/gallery.html', products_page=products)

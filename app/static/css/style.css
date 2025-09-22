@@ -718,3 +718,97 @@ a{color:inherit}
   h1 { font-size: 1.35rem; }
   nav ul li a { font-size: .95rem; }
 }
+
+
+/* Визуально скрытый заголовок/лейбл — доступность */
+.oz-vh {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px,1px,1px,1px);
+  white-space: nowrap; border: 0; padding: 0; margin: -1px;
+}
+
+/* ===== SUPREMATIST SEARCH ===== */
+:root {
+  --oz-bg: #fff;
+  --oz-fg: #000;
+  --oz-accent: #2d6cff;       /* «синий квадрат» */
+  --oz-muted: #e9e9e9;
+}
+
+.oz-search {
+  margin: 0;
+  padding: 0;
+}
+
+.oz-search-wrap {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  align-items: stretch;
+  max-width: 720px;
+  width: 100%;
+  margin: 1rem 0 0 0;
+  isolation: isolate;         /* не конфликтуем со слоями фона */
+  z-index: 1;
+}
+
+.oz-search input {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--oz-bg);
+  color: var(--oz-fg);
+  border: 2px solid var(--oz-fg);
+  outline: none;
+  padding: 0.9rem 1.1rem;
+  font: 500 1rem/1.1 "Orbitron", "Roboto", system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  border-radius: 0;           /* жёсткая геометрия */
+}
+
+.oz-search input::placeholder {
+  color: #555;
+  opacity: 0.9;
+}
+
+.oz-search input:focus {
+  box-shadow: inset 0 0 0 2px var(--oz-bg), 0 0 0 3px var(--oz-fg);
+}
+
+/* Кнопка — как чёрный прямоугольник */
+.oz-search-btn {
+  background: var(--oz-fg);
+  color: var(--oz-bg);
+  border: 2px solid var(--oz-fg);
+  padding: 0 1.2rem;
+  font: 700 0.95rem/1 "Orbitron", "Roboto", system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 0;
+  transition: transform 120ms ease-out;
+}
+.oz-search-btn:hover { transform: translateY(-1px); }
+.oz-search-btn:active { transform: translateY(0); }
+
+/* Лэйаут в шапке — форма прыгает под меню на узких экранах */
+@media (max-width: 840px) {
+  .oz-search-wrap { margin-top: 0.75rem; }
+}
+@media (max-width: 560px) {
+  .oz-search-wrap {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .oz-decor-square { left: -8px; top: -10px; }
+  .oz-decor-stripe { right: -6px; bottom: -6px; width: 40px; height: 5px; }
+  .oz-search input { padding: 0.85rem 0.9rem; }
+  .oz-search-btn { padding: 0.85rem 0.9rem; width: 100%; text-align: center; }
+}
+
+/* Светлая тема по умолчанию — чтобы не конфликтовать с тёмной */
+body {
+  background: var(--oz-bg);
+  color: var(--oz-fg);
+}
