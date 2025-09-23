@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 # Таблица для хранения сырых данных
 class Image(db.Model):
     __tablename__ = 'images'
@@ -12,6 +13,7 @@ class Image(db.Model):
     category = db.Column(db.String(100), nullable=True)
     upload_date = db.Column(db.DateTime, nullable=True)
 
+
 # Таблица для хранения категорий
 class Category(db.Model):
     __tablename__ = 'categories'
@@ -19,6 +21,7 @@ class Category(db.Model):
     name = db.Column(db.String(100), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
     parent = db.relationship('Category', remote_side=[id], backref='children')
+
 
 # Таблица для хранения товаров
 class Product(db.Model):
@@ -33,6 +36,3 @@ class Product(db.Model):
     hash = db.Column(db.Text, unique=True)
     main_url = db.Column(db.Text, nullable=False)
     # hash = db.Column(db.Integer, db.ForeignKey('product_dict.hash'), nullable=True)
-
-
-
