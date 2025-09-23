@@ -55,3 +55,13 @@ def search():
     else:
         products = Product.query.filter(Product.description.ilike(f"%{query}%")).all()
     return render_template('main/gallery.html', products_page=products)
+
+
+@main_bp.route('/categories')
+def search():
+    query = request.args.get('q', '').strip()
+    if not query:
+        products = []
+    else:
+        products = Product.query.filter(Product.description.ilike(f"%{query}%")).all()
+    return render_template('main/gallery.html', products_page=products)
