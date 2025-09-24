@@ -2,12 +2,30 @@
 
 {% block content %}
 
-<nav>
-  <ul class="category-list"></ul>
-</nav>
-
 <main>
   <div class="container">
+
+<form class="oz-search" action="{{ url_for('main.gallery') }}" method="GET">
+  <div class="oz-search-wrap">
+    <select name="category_id" class="oz-search-select" onchange="this.form.submit()">
+      <option value="all" {{ 'selected' if selected_category == 'all' else '' }}>Все категории</option>
+
+      {% for parent in category_tree %}
+        <option value="{{ parent.id }}"
+          {{ 'selected' if selected_category == parent.id|string else '' }}>
+          {{ parent.name }} — все
+        </option>
+        {% for child in parent.children %}
+          <option value="{{ child.id }}"
+            {{ 'selected' if selected_category == child.id|string else '' }}>
+            &nbsp;&nbsp;{{ child.name }}
+          </option>
+        {% endfor %}
+      {% endfor %}
+    </select>
+  </div>
+</form>
+
     <section class="oz-gallery" aria-labelledby="oz-title">
       <h1 id="oz-title" class="oz-vh">Галерея</h1>
       <div class="oz-grid" aria-label="Список товаров">
@@ -94,3 +112,4 @@
 </body>
 </html>
 {% endblock %}
+

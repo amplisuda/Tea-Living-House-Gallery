@@ -28,22 +28,7 @@
         </div>
     </header>
 <nav>
-    <ul class="category-list">
-        <ul class="category-list">
-    {% for category in category_tree %}
-        <li>
-            <a href="{{ url_for('categories.category', category_id=category.id) }}">{{ category.name }}</a>
-            {% if category.children %}
-                <ul>
-                    {% for child in category.children %}
-                        <li><a href="{{ url_for('categories.category', category_id=child.id) }}">{{ child.name }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </li>
-    {% endfor %}
-</ul>
-    </ul>
+
 </nav>
     <main>
         <div class="container">
