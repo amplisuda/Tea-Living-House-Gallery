@@ -52,6 +52,7 @@
           {% endif %}
         </ul>
 
+
         <a class="oz-page {% if page>=total_pages %}oz-disabled{% endif %}"
            href="{{ url_for('main.gallery', page=page+1) if page<total_pages else '#' }}"
            aria-disabled="{{ 'true' if page>=total_pages else 'false' }}" rel="next">Вперёд</a>
