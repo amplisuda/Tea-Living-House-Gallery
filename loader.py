@@ -74,7 +74,7 @@ def update_categories():
     app = create_app()
     with app.app_context():
         try:
-            db.session.execute(text("SELECT calc_categories();"))  # Функция категоризации товаров
+            db.session.execute(text("SELECT calc_categories();"))  # Функция категоризации
             db.session.commit()
         except Exception as e:
             print(f"Error in update_categories: {e}")
