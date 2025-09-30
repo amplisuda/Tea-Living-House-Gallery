@@ -67,7 +67,7 @@ def map_products():
             db.session.execute(text("SELECT products_mapping();"))  # Функция для обработки товаров
             db.session.commit()
         except Exception as e:
-            print(f"Error in map_products: {e}")
+            print(f"Error while updating products: {e}")
             db.session.rollback()
 
 def update_categories():
