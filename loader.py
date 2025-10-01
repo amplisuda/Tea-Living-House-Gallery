@@ -77,7 +77,7 @@ def update_categories():
             db.session.execute(text("SELECT calc_categories();"))  # Функция категоризации
             db.session.commit()
         except Exception as e:
-            print(f"Error in update_categories: {e}")
+            print(f"Error while updating categories: {e}")
             db.session.rollback()
 
 if __name__ == '__main__':
