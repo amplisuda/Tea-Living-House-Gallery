@@ -88,4 +88,3 @@ def search():
     else:
         products = Product.query.filter(Product.description.ilike(f"%{query}%")).all()
     return render_template('main/gallery.html', products_page=products)
-
