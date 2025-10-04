@@ -13,7 +13,7 @@
       {% for parent in category_tree %}
         <option value="{{ parent.id }}"
           {{ 'selected' if selected_category == parent.id|string else '' }}>
-          {{ parent.name }} — все
+          {{ parent.name }}
         </option>
         {% for child in parent.children %}
           <option value="{{ child.id }}"
