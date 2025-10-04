@@ -34,14 +34,12 @@ PER_PAGE = 28
 @main_bp.route('/gallery')
 def gallery():
     page = int(request.args.get("page", 1))
-    category_id = request.args.get("category_id", None)
+    raw_category = request.args.get("category_id", None)  # сохраняем оригинал для строки
 
-    # Fetch all categories and build hierarchy
     categories = Category.query.order_by(Category.name).all() if hasattr(Product, 'category_id') else []
     category_tree = []
     category_map = {c.id: {'id': c.id, 'name': c.name, 'children': []} for c in categories}
 
-    # Organize categories into a tree
     for category in categories:
         if category.parent_id is None:
             category_tree.append(category_map[category.id])
@@ -49,17 +47,24 @@ def gallery():
             if category.parent_id in category_map:
                 category_map[category.parent_id]['children'].append(category_map[category.id])
 
-    # Build the product query
+    # Строим запрос
     query = Product.query.order_by(Product.id.desc())
-    if category_id and category_id != "all":
+
+    # Будем держать две переменные:
+    # - category_id_int для фильтра
+    # - selected_category_str для шаблона
+    selected_category_str = "all"
+    if raw_category and raw_category != "all":
         try:
-            category_id = int(category_id)
-            # Include subcategories if a parent category is selected
-            subcategory_ids = [c.id for c in categories if c.parent_id == category_id]
-            subcategory_ids.append(category_id)  # Include the parent itself
+            category_id_int = int(raw_category)
+            subcategory_ids = [c.id for c in categories if c.parent_id == category_id_int]
+            subcategory_ids.append(category_id_int)
             query = query.filter(Product.category_id.in_(subcategory_ids))
+            selected_category_str = str(category_id_int)  # << ВАЖНО: строка для шаблона
         except ValueError:
-            category_id = "all"  # Fallback to all products if category_id is invalid
+            selected_category_str = "all"
+    else:
+        selected_category_str = "all"
 
     all_products = query.all()
     total_pages = max(1, ceil(len(all_products) / PER_PAGE))
@@ -76,8 +81,9 @@ def gallery():
         page=page,
         total_pages=total_pages,
         category_tree=category_tree,
-        selected_category=category_id or "all"
+        selected_category=selected_category_str,  # << всегда строка
     )
+
 
 
 @main_bp.route('/search')
