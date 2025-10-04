@@ -803,7 +803,7 @@ background: var(--oz-bg);
 @media (max-width: 480px){
 .oz-grid{
 grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    gap: 6px !important;
 }
 .oz-card-title{
 font-size: .9rem;
