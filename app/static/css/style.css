@@ -547,7 +547,7 @@ dialog.oz-modal {
 @media (max-width: 600px) {
   .oz-pager {
     display: flex;
-    flex-wrap: wrap;   /* переносим, если не помещается */
+    flex-wrap: wrap;
     justify-content: center;
     gap: .5rem;
   }
