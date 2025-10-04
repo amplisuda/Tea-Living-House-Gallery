@@ -49,9 +49,6 @@
 
       {% if total_pages and total_pages>1 %}
       <nav class="oz-pager" aria-label="Навигация по страницам">
-        <a class="oz-page {% if page<=1 %}oz-disabled{% endif %}"
-           href="{{ url_for('main.gallery', page=page-1) if page>1 else '#' }}"
-           aria-disabled="{{ 'true' if page<=1 else 'false' }}" rel="prev">Назад</a>
 
         <ul class="oz-page-list">
           {% set start=[1,page-2]|max %}
@@ -70,10 +67,6 @@
           {% endif %}
         </ul>
 
-
-        <a class="oz-page {% if page>=total_pages %}oz-disabled{% endif %}"
-           href="{{ url_for('main.gallery', page=page+1) if page<total_pages else '#' }}"
-           aria-disabled="{{ 'true' if page>=total_pages else 'false' }}" rel="next">Вперёд</a>
       </nav>
       {% endif %}
     </section>
