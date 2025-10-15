@@ -12,7 +12,7 @@
     </div>
     <div class="oz-info">
       <div class="oz-desc">{{ product.description | safe }}</div>
-      <a href="https://t.me/amplisuda?text={{ ('Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=product.hash, _external=True)) | urlencode }}" class="oz-btn" target="_blank" rel="noopener">Написать продавцу</a>
+      <a href="https://t.me/plombirLTH?text={{ ('Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=product.hash, _external=True)) | urlencode }}" class="oz-btn" target="_blank" rel="noopener">Написать продавцу</a>
     </div>
   </div>
 {% else %}
