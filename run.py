@@ -1,7 +1,7 @@
 from app import create_app
 from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
-import time
+
 
 def run_loader():
     subprocess.run(["python3", "loader.py"])
