@@ -896,3 +896,8 @@ grid-template-columns: repeat(3, 1fr) !important;
     .oz-tile{border-radius:10px}
     .oz-close,.oz-arrow{width:44px;height:44px;border-radius:10px}
   }
+
+.oz-lightbox { position: fixed; }           
+.oz-big      { position: absolute; z-index: 1; }
+.oz-arrow,
+.oz-close    { position: absolute; z-index: 2; }
