@@ -35,4 +35,3 @@ class Product(db.Model):
     category = db.relationship('Category', backref='products')
     hash = db.Column(db.Text, unique=True)
     main_url = db.Column(db.Text, nullable=False)
-    # hash = db.Column(db.Integer, db.ForeignKey('product_dict.hash'), nullable=True)

@@ -1,7 +1,7 @@
 from app import create_app
 from apscheduler.schedulers.background import BackgroundScheduler
 import subprocess
-import time
+
 
 def run_loader():
     subprocess.run(["python3", "loader.py"])
@@ -14,7 +14,7 @@ scheduler.start()
 
 if __name__ == '__main__':
     try:
-        app.run(debug=False, host='0.0.0.0', port=5050)
+        app.run(debug=False, host='0.0.0.0', port=80)
     except (KeyboardInterrupt, SystemExit):
         scheduler.shutdown()
 
