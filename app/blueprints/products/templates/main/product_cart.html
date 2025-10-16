@@ -1,20 +1,87 @@
 {% extends 'base.html' %}
+
 {% block content %}
 {% if product %}
-  <div class="oz-product">
-    <div class="oz-images">
-      {# Collage-style, grouped grid — images automatically tile into bold blocks #}
-      {% for image_url in product.image_url %}
-        <div class="oz-image">
-          <img src="{{ image_url }}" alt="{{ product.name }}">
-        </div>
+<article class="oz-min">
+  <section class="oz-box" aria-label="Изображения товара">
+    <div class="oz-grid" role="list">
+      {# привет!) этот сайт написан для людей желающих соприкоснуться с высоким #}
+      {% set imgs = (product.image_url if product.image_url else [url_for('static', filename='img/placeholder.png')]) %}
+      {% for src in imgs %}
+        <button class="oz-tile" role="listitem" type="button" data-index="{{ loop.index0 }}"
+                aria-label="Открыть изображение {{ loop.index }} из {{ imgs|length }}">
+          <img src="{{ src }}" alt="{{ product.name }}" loading="lazy" decoding="async">
+        </button>
       {% endfor %}
     </div>
-    <div class="oz-info">
-      <div class="oz-desc">{{ product.description | safe }}</div>
-      <a href="https://t.me/plombirLTH?text={{ ('Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=product.hash, _external=True)) | urlencode }}" class="oz-btn" target="_blank" rel="noopener">Написать продавцу</a>
-    </div>
-  </div>
+  </section>
+
+
+  <section class="oz-info">
+    <div class="oz-desc">{{ product.description | safe }}</div>
+    <a class="oz-btn"
+       href="https://t.me/plombirLTH?text={{ ('Здравствуйте, хотел бы приобрести картину: ' ~ url_for('product.product', hash=product.hash, _external=True)) | urlencode }}"
+       target="_blank" rel="noopener">Написать продавцу</a>
+  </section>
+</article>
+
+
+<dialog class="oz-lightbox" aria-label="Просмотр изображения">
+  <button class="oz-close" aria-label="Закрыть">×</button>
+  <button class="oz-arrow oz-left"  aria-label="Предыдущее">←</button>
+  <img class="oz-big" alt="{{ product.name }}">
+  <button class="oz-arrow oz-right" aria-label="Следующее">→</button>
+</dialog>
+
+
+<script>
+(function(){
+  const sources = {{ (product.image_url or []) | tojson }};
+  const placeholder = "{{ url_for('static', filename='img/placeholder.png') }}";
+  const list = (Array.isArray(sources) && sources.length ? sources : [placeholder]).map(String);
+
+  const tiles = Array.from(document.querySelectorAll('.oz-tile'));
+  const dlg   = document.querySelector('.oz-lightbox');
+  const img   = document.querySelector('.oz-big');
+  const close = document.querySelector('.oz-close');
+  const left  = document.querySelector('.oz-left');
+  const right = document.querySelector('.oz-right');
+
+  let i = 0;
+
+  function show(idx){
+    i = Math.min(Math.max(idx, 0), list.length - 1);
+    img.src = list[i] || placeholder;
+    left.disabled  = (i === 0);
+    right.disabled = (i === list.length - 1);
+  }
+
+  function openAt(idx){
+    show(idx);
+    dlg.showModal();
+  }
+
+  tiles.forEach(t => {
+    t.addEventListener('click', () => openAt(+t.dataset.index));
+    t.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') openAt(+t.dataset.index);
+    });
+  });
+
+  left.addEventListener('click',  () => show(i-1));
+  right.addEventListener('click', () => show(i+1));
+  close.addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+  window.addEventListener('keydown', (e) => {
+    if (!dlg.open) return;
+    if (e.key === 'Escape') dlg.close();
+    if (e.key === 'ArrowLeft')  show(i-1);
+    if (e.key === 'ArrowRight') show(i+1);
+  });
+
+  img.addEventListener('error', () => { img.src = placeholder; });
+})();
+</script>
 {% else %}
   <p>Нет доступных продуктов.</p>
 {% endif %}
